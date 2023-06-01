@@ -79,17 +79,17 @@ android {
         production {
             dimension "default"
             applicationIdSuffix ""
-            manifestPlaceholders = [appName: "Ai Recording Visualizer"]
+            manifestPlaceholders = [appName: "AI Recording Visualizer"]
         }
         staging {
             dimension "default"
             applicationIdSuffix ".stg"
-            manifestPlaceholders = [appName: "[STG] Ai Recording Visualizer"]
+            manifestPlaceholders = [appName: "[STG] AI Recording Visualizer"]
         }
         development {
             dimension "default"
             applicationIdSuffix ".dev"
-            manifestPlaceholders = [appName: "[DEV] Ai Recording Visualizer"]
+            manifestPlaceholders = [appName: "[DEV] AI Recording Visualizer"]
         }
     }
 
