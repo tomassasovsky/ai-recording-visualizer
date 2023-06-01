@@ -1,6 +1,6 @@
 {
-    "name": "Ai Recording Visualizer",
-    "short_name": "Ai Recording Visualizer",
+    "name": "AI Recording Visualizer",
+    "short_name": "AI Recording Visualizer",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
