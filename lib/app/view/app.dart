@@ -1,4 +1,4 @@
-import 'package:ai_recording_visualizer/counter/counter.dart';
+import 'package:ai_recording_visualizer/file_loader/view/file_loader_page.dart';
 import 'package:ai_recording_visualizer/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -7,16 +7,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
-        colorScheme: ColorScheme.fromSwatch(
-          accentColor: const Color(0xFF13B9FF),
-        ),
-      ),
+    return const MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: FileLoaderPage(),
     );
   }
 }
