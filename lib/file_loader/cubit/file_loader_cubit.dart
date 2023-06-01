@@ -1,6 +1,9 @@
+import 'dart:convert';
+
+import 'package:ai_recording_visualizer/logfile_processor/models/metadata_log.dart';
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 
 part 'file_loader_state.dart';
 
@@ -37,6 +40,7 @@ class FileLoaderCubit extends Cubit<FileLoaderState> {
     final pickedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: [fileLoaderType.extension],
+      withData: true,
     );
 
     if (pickedFile == null) {
