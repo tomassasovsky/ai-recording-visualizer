@@ -1,3 +1,4 @@
 {
-    "@@locale": "es"
+    "@@locale": "es",
+    "selectFile": "Seleccionar archivo de {type}"
 }
