@@ -40,7 +40,8 @@ class FileLoaderCubit extends Cubit<FileLoaderState> {
     final pickedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: [fileLoaderType.extension],
-      withData: true,
+      // only load file contents if it's a json file
+      withData: fileLoaderType == FileLoaderType.json,
     );
 
     if (pickedFile == null) {
