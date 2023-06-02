@@ -11,4 +11,5 @@ TurnAction _$TurnActionFromJson(Map<String, dynamic> json) => TurnAction(
       (json['angle'] as num).toDouble(),
       (json['speed'] as num).toDouble(),
       Direction.fromJson(json['direction'] as String),
+      json['timestamp'] as int,
     );

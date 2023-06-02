@@ -9,6 +9,7 @@ class TurnAction {
     this.angle,
     this.speed,
     this.direction,
+    this.timestamp,
   );
 
   factory TurnAction.fromJson(Map<String, dynamic> json) =>
@@ -19,6 +20,23 @@ class TurnAction {
   final double speed;
   @JsonKey(fromJson: Direction.fromJson)
   final Direction direction;
+  final int timestamp;
+
+  TurnAction copyWith({
+    double? startPoint,
+    double? angle,
+    double? speed,
+    Direction? direction,
+    int? timestamp,
+  }) {
+    return TurnAction(
+      startPoint ?? this.startPoint,
+      angle ?? this.angle,
+      speed ?? this.speed,
+      direction ?? this.direction,
+      timestamp ?? this.timestamp,
+    );
+  }
 }
 
 enum Direction {

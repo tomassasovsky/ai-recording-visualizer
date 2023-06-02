@@ -16,7 +16,7 @@ class Box {
     this.y1,
     this.labelId,
     this.score,
-    this.detectedAt,
+    this.timestamp,
   );
 
   factory Box.fromJson(Map<String, dynamic> json) => _$BoxFromJson(json);
@@ -29,7 +29,7 @@ class Box {
   final double y1;
   final int labelId;
   final double score;
-  final int detectedAt;
+  final int timestamp;
 
   Rect get rect => Rect.fromLTRB(x0, y0, x1, y1);
 
@@ -44,4 +44,38 @@ class Box {
   double get centerY => (y0 + y1) / 2;
 
   Point<double> get center => Point(centerX, centerY);
+
+  Color color() {
+    final random = Random(labelId);
+    return Color.fromARGB(
+      255,
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
+    );
+  }
+
+  Box copyWith({
+    int? imageWidth,
+    int? imageHeight,
+    double? x0,
+    double? y0,
+    double? x1,
+    double? y1,
+    int? labelId,
+    double? score,
+    int? timestamp,
+  }) {
+    return Box(
+      imageWidth ?? this.imageWidth,
+      imageHeight ?? this.imageHeight,
+      x0 ?? this.x0,
+      y0 ?? this.y0,
+      x1 ?? this.x1,
+      y1 ?? this.y1,
+      labelId ?? this.labelId,
+      score ?? this.score,
+      timestamp ?? this.timestamp,
+    );
+  }
 }

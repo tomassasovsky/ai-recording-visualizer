@@ -14,4 +14,14 @@ class ZoomAdjustment {
 
   final double zoomLevel;
   final int timestamp;
+
+  ZoomAdjustment copyWith({
+    double? zoomLevel,
+    int? timestamp,
+  }) {
+    return ZoomAdjustment(
+      zoomLevel ?? this.zoomLevel,
+      timestamp ?? this.timestamp,
+    );
+  }
 }

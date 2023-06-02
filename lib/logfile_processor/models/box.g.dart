@@ -15,5 +15,5 @@ Box _$BoxFromJson(Map<String, dynamic> json) => Box(
       (json['y1'] as num).toDouble(),
       json['labelId'] as int,
       (json['score'] as num).toDouble(),
-      json['detectedAt'] as int,
+      json['timestamp'] as int,
     );
