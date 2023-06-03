@@ -11,6 +11,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      debugShowCheckedModeBanner: false,
       initialRoute: '/file-loader',
       routes: {
         '/file-loader': (context) => const FileLoaderPage(),
