@@ -45,6 +45,10 @@ class Box {
 
   Point<double> get center => Point(centerX, centerY);
 
+  String get label => labels[labelId];
+
+  static List<String> labels = ['basketball', 'hoop'];
+
   Color color() {
     final random = Random(labelId);
     return Color.fromARGB(

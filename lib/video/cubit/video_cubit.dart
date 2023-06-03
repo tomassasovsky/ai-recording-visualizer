@@ -1,11 +1,5 @@
-// import 'dart:developer';
-
-import 'dart:developer';
-import 'dart:math' as math;
-
 import 'package:ai_recording_visualizer/logfile_processor/logfile_processor.dart';
 import 'package:ai_recording_visualizer/video/video.dart';
-// import 'package:ai_recording_visualizer/video/video.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:media_kit/media_kit.dart';
@@ -16,107 +10,81 @@ part 'video_state.dart';
 class VideoCubit extends Cubit<VideoState> {
   VideoCubit(
     this.videoPath,
-    MetadataLog metadataLog,
-  ) : super(const VideoState()) {
-    this.metadataLog = metadataLog.normalizeTimestamps();
+    this.metadataLog,
+  ) : super(const VideoState());
+
+  late List<int> totalTimeStampsList;
+
+  /// Loads the video into the player and initializes the metadata log when
+  /// the video duration is known. Also registers listeners for the video
+  /// position to update the state with the current detections; see also:
+  ///
+  /// _onPositionChanged
+  ///
+  Future<void> init() async {
+    player.streams.duration.listen(_onDurationChanged);
+    player.streams.position.listen(_onPositionChanged);
+
+    await player.open(Media(videoPath), play: false);
   }
 
-  final futures = <CancelableFuture<void>>[];
+  void _onDurationChanged(Duration duration) {
+    videoDuration = duration;
+  }
 
-  Future<void> init() async {
-    final ballDetectionsTimeStamps = metadataLog.ballDetections.keys.toList();
-    final hoopDetectionsTimeStamps = metadataLog.hoopDetections.keys.toList();
-    final totalTimeStampsList = <int>{
-      ...ballDetectionsTimeStamps,
-      ...hoopDetectionsTimeStamps,
+  Future<void> _onPositionChanged(Duration position) async {
+    // Wait for the video duration to be known before normalizing the
+    // metadata log.
+    if (videoDuration == null) {
+      return;
+    }
+
+    if (normalizedMetadataLog == null) {
+      _normalizeMetadataLog();
+    }
+
+    if (!player.state.playing) {
+      await player.play();
+    }
+
+    final nearestTimeStamp = totalTimeStampsList.nearestIndex(
+      target: position.inMilliseconds,
+      threshold: 150,
+    );
+
+    final ballDetections =
+        normalizedMetadataLog?.ballDetections[nearestTimeStamp] ?? [];
+    final hoopDetections =
+        normalizedMetadataLog?.ballDetections[nearestTimeStamp] ?? [];
+
+    emit(
+      VideoState(
+        ballDetections: ballDetections,
+        hoopDetections: hoopDetections,
+      ),
+    );
+  }
+
+  void _normalizeMetadataLog() {
+    normalizedMetadataLog =
+        metadataLog.normalizeTimestamps(videoDuration: videoDuration!);
+
+    final ballDetectionsTimeStamps =
+        normalizedMetadataLog?.ballDetections.keys.toList();
+    final hoopDetectionsTimeStamps =
+        normalizedMetadataLog?.hoopDetections.keys.toList();
+    totalTimeStampsList = <int>{
+      ...?ballDetectionsTimeStamps,
+      ...?hoopDetectionsTimeStamps,
     }.toList()
       ..sort();
-    // player.streams.playing.listen((event) {
-    //   if (!event) {
-    //     for (final future in futures) {
-    //       future.cancel();
-    //     }
-    //     return;
-    //   }
-
-    //   final currentPosition = player.state.position;
-
-    //   // calculate how many miliseconds to wait before showing each list of
-    //   // detections
-    //   for (final entry in metadataLog.ballDetections.entries) {
-    //     final frame = entry.key;
-
-    //     final delayInMillis = frame - currentPosition.inMilliseconds;
-    //     if (delayInMillis <= 0) {
-    //       continue;
-    //     }
-    //     log('delay: $delayInMillis');
-    //     final delay = Duration(milliseconds: math.max(delayInMillis - 2000, 0));
-
-    //     final future = CancelableFuture(
-    //       future: Future<void>.delayed(delay),
-    //       onComplete: () {
-    //         emit(
-    //           VideoState(
-    //             ballDetections: entry.value,
-    //             hoopDetections: metadataLog.hoopDetections[frame] ?? [],
-    //             turnActions: metadataLog.turnActions
-    //                 .where((element) => element.timestamp == frame)
-    //                 .toList(),
-    //             zoomAdjustments: metadataLog.zoomAdjustments
-    //                 .where((element) => element.timestamp == frame)
-    //                 .toList(),
-    //           ),
-    //         );
-    //       },
-    //     );
-
-    //     futures.add(future);
-    //   }
-    // });
-
-    player.streams.position.listen((event) {
-      final nearestTimeStamp = totalTimeStampsList.nearestIndex(
-        target: event.inMilliseconds,
-        threshold: 1000,
-      );
-
-      final ballDetections = metadataLog.ballDetections[nearestTimeStamp] ?? [];
-      final hoopDetections = metadataLog.ballDetections[nearestTimeStamp] ?? [];
-
-      if (nearestTimeStamp != null) {
-        log('nearestTimeStamp: ${event.inMilliseconds} -> $nearestTimeStamp');
-      }
-
-      emit(
-        VideoState(
-          ballDetections: ballDetections,
-          hoopDetections: hoopDetections,
-        ),
-      );
-    });
-
-    await player.open(Media(videoPath));
   }
 
-  final Player player = Player();
-  late final controller = VideoController(player);
   final String videoPath;
-  late final MetadataLog metadataLog;
-}
+  final MetadataLog metadataLog;
 
-class CancelableFuture<T> {
-  CancelableFuture({
-    required Future<T> future,
-    required void Function() onComplete,
-  }) {
-    future.whenComplete(() {
-      if (!_cancelled) onComplete();
-    });
-  }
-
-  bool _cancelled = false;
-  void cancel() {
-    _cancelled = true;
-  }
+  late final controller = VideoController(player);
+  final Player player = Player();
+  MetadataLog? normalizedMetadataLog;
+  Duration? videoDuration;
 }

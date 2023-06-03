@@ -77,7 +77,25 @@ class _VideoViewState extends State<VideoView> {
                   ballColor: ballDetections,
                 };
 
-                return BoundingBoxesOverlay(detections);
+                return ValueListenableBuilder(
+                  valueListenable: cubit.controller.notifier,
+                  builder: (context, value, child) {
+                    final rect = value?.rect.value;
+                    if (rect == null) {
+                      return const SizedBox();
+                    }
+
+                    final aspectRatio = rect.width / rect.height;
+                    if (aspectRatio.isNaN || aspectRatio == 0) {
+                      return BoundingBoxesOverlay(detections);
+                    }
+
+                    return AspectRatio(
+                      aspectRatio: aspectRatio,
+                      child: BoundingBoxesOverlay(detections),
+                    );
+                  },
+                );
               },
             ),
           ],

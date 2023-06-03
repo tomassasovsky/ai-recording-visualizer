@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:ai_recording_visualizer/logfile_processor/logfile_processor.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +24,6 @@ class BoundingBoxesPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    log('painting bounding boxes');
     for (final detection in detections.entries) {
       final color = detection.key;
       final boxes = detection.value;
@@ -37,9 +34,27 @@ class BoundingBoxesPainter extends CustomPainter {
         final paint = Paint()
           ..color = color
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 3;
+          ..strokeWidth = 2;
 
         canvas.drawRect(rect, paint);
+        final textPainter = TextPainter(
+          text: TextSpan(
+            text: box.label,
+            style: TextStyle(
+              color: color,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          textDirection: TextDirection.ltr,
+        );
+
+        textPainter
+          ..layout()
+          ..paint(
+            canvas,
+            Offset(rect.left, rect.top - textPainter.height),
+          );
       }
     }
   }
