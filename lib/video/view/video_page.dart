@@ -61,46 +61,71 @@ class _VideoViewState extends State<VideoView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Control(
-        player: cubit.player,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Video(controller: cubit.controller),
-            BlocBuilder<VideoCubit, VideoState>(
-              builder: (context, state) {
-                final ballDetections = state.ballDetections;
-                final hoopDetections = state.hoopDetections;
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Control(
+            player: cubit.player,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Video(controller: cubit.controller),
+                BlocBuilder<VideoCubit, VideoState>(
+                  builder: (context, state) {
+                    final ballDetections = state.ballDetections;
+                    final hoopDetections = state.hoopDetections;
 
-                final detections = {
-                  hoopColor: hoopDetections,
-                  ballColor: ballDetections,
-                };
+                    final detections = {
+                      hoopColor: hoopDetections,
+                      ballColor: ballDetections,
+                    };
 
-                return ValueListenableBuilder(
-                  valueListenable: cubit.controller.notifier,
-                  builder: (context, value, child) {
-                    final rect = value?.rect.value;
-                    if (rect == null) {
-                      return const SizedBox();
-                    }
+                    return ValueListenableBuilder(
+                      valueListenable: cubit.controller.notifier,
+                      builder: (context, value, child) {
+                        final rect = value?.rect.value;
+                        if (rect == null) {
+                          return const SizedBox();
+                        }
 
-                    final aspectRatio = rect.width / rect.height;
-                    if (aspectRatio.isNaN || aspectRatio == 0) {
-                      return BoundingBoxesOverlay(detections);
-                    }
+                        final aspectRatio = rect.width / rect.height;
+                        if (aspectRatio.isNaN || aspectRatio == 0) {
+                          return BoundingBoxesOverlay(detections);
+                        }
 
-                    return AspectRatio(
-                      aspectRatio: aspectRatio,
-                      child: BoundingBoxesOverlay(detections),
+                        return AspectRatio(
+                          aspectRatio: aspectRatio,
+                          child: BoundingBoxesOverlay(detections),
+                        );
+                      },
                     );
                   },
-                );
-              },
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          InfoOverlay(onPressed: showInfo),
+        ],
       ),
     );
+  }
+
+  Future<void> showInfo() async {
+    final metadataLog = cubit.metadataLog;
+    final normalizedMetadataLog = cubit.normalizedMetadataLog;
+
+    final inputSize = metadataLog.inputSize;
+    final sensorMetadata = metadataLog.sensorMetadata;
+    final startFrame = metadataLog.startFrame;
+    final endFrame = metadataLog.endFrame;
+    final startFrameCorrection = normalizedMetadataLog?.startFrameCorrection;
+
+    await MetadataPopup(
+      inputSize: inputSize,
+      sensorMetadata: sensorMetadata,
+      startFrame: startFrame,
+      endFrame: endFrame,
+      startFrameCorrection: startFrameCorrection,
+    ).showAsDialog(context);
   }
 }

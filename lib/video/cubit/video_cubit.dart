@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ai_recording_visualizer/logfile_processor/logfile_processor.dart';
 import 'package:ai_recording_visualizer/video/video.dart';
 import 'package:bloc/bloc.dart';
@@ -13,8 +15,6 @@ class VideoCubit extends Cubit<VideoState> {
     this.metadataLog,
   ) : super(const VideoState());
 
-  late List<int> totalTimeStampsList;
-
   /// Loads the video into the player and initializes the metadata log when
   /// the video duration is known. Also registers listeners for the video
   /// position to update the state with the current detections; see also:
@@ -22,8 +22,11 @@ class VideoCubit extends Cubit<VideoState> {
   /// _onPositionChanged
   ///
   Future<void> init() async {
-    player.streams.duration.listen(_onDurationChanged);
-    player.streams.position.listen(_onPositionChanged);
+    await _durationSubscription?.cancel();
+    await _positionSubscription?.cancel();
+
+    _durationSubscription = player.streams.duration.listen(_onDurationChanged);
+    _positionSubscription = player.streams.position.listen(_onPositionChanged);
 
     await player.open(Media(videoPath), play: false);
   }
@@ -47,7 +50,7 @@ class VideoCubit extends Cubit<VideoState> {
       await player.play();
     }
 
-    final nearestTimeStamp = totalTimeStampsList.nearestIndex(
+    final nearestTimeStamp = totalTimeStampsList?.nearestIndex(
       target: position.inMilliseconds,
       threshold: 150,
     );
@@ -80,11 +83,22 @@ class VideoCubit extends Cubit<VideoState> {
       ..sort();
   }
 
+  @override
+  Future<void> close() async {
+    await _durationSubscription?.cancel();
+    await _positionSubscription?.cancel();
+    await player.dispose();
+    return super.close();
+  }
+
   final String videoPath;
   final MetadataLog metadataLog;
 
   late final controller = VideoController(player);
   final Player player = Player();
+  List<int>? totalTimeStampsList;
+  StreamSubscription<Duration>? _durationSubscription;
+  StreamSubscription<Duration>? _positionSubscription;
   MetadataLog? normalizedMetadataLog;
   Duration? videoDuration;
 }

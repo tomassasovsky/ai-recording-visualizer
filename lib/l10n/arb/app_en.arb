@@ -1,4 +1,16 @@
 {
     "@@locale": "en",
-    "selectFile": "Select {type} file"
+    "selectFile": "Select {type} file",
+    "generalMetadata": "General metadata",
+    "modelSize": "Model size: {size}x{size}",
+    "sensorMetadata": "Sensor metadata:",
+    "sensorMetadataHorizontalFov": "Horizontal field of view: {fov}°",
+    "sensorMetadataVerticalFov": "Vertical field of view: {fov}°",
+    "sensorMetadataFocalLength": "Focal length: {focalLength}mm",
+    "sensorMetadataSize": "Sensor size: {pixelWidth}x{pixelHeight}mm",
+    "recordingTimestamp": "Recording timestamp: {timestamp}",
+    "recordingDuration": "Recording duration: {duration}",
+    "recordingEndTimestamp": "Recording end timestamp: {timestamp}",
+    "logFrameSyncCorrection": "Log frame sync correction: {correction}ms",
+    "close": "Close"
 }
