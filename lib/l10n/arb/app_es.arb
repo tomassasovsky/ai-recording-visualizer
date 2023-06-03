@@ -1,4 +1,16 @@
 {
     "@@locale": "es",
-    "selectFile": "Seleccionar archivo de {type}"
+    "selectFile": "Seleccionar archivo de {type}",
+    "generalMetadata": "Información general",
+    "modelSize": "Tamaño del modelo: {size}x{size}",
+    "sensorMetadata": "Información del sensor:",
+    "sensorMetadataHorizontalFov": "Campo de visión horizontal: {fov}°",
+    "sensorMetadataVerticalFov": "Campo de visión vertical: {fov}°",
+    "sensorMetadataFocalLength": "Longitud focal: {focalLength}mm",
+    "sensorMetadataSize": "Tamaño del sensor: {pixelWidth}x{pixelHeight}mm",
+    "recordingTimestamp": "Fecha de grabación: {timestamp}",
+    "recordingDuration": "Duración de la grabación: {duration}",
+    "recordingEndTimestamp": "Fecha de finalización de la grabación: {timestamp}",
+    "logFrameSyncCorrection": "Corrección de sincronización de fotogramas: {correction}ms",
+    "close": "Cerrar"
 }

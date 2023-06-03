@@ -24,6 +24,7 @@ class MetadataLog {
     required this.zoomAdjustments,
     required this.logs,
     this.normalizationMethod,
+    this.startFrameCorrection,
   });
 
   factory MetadataLog.fromJson(Map<String, dynamic> json) =>
@@ -40,18 +41,23 @@ class MetadataLog {
   final List<String> logs;
   @JsonKey(includeFromJson: false)
   final NormalizationMethod? normalizationMethod;
+  @JsonKey(includeFromJson: false)
+  final int? startFrameCorrection;
 
   // Converts all timestamps relative to the start of the video (0s)
   MetadataLog normalizeTimestamps({
     required Duration videoDuration,
   }) {
     NormalizationMethod normalizationMethod;
+    int? startFrameCorrection;
 
     // startFrame is unreliable, so we need to use the endFrame and
     // video duration to calculate it
     int startFrame;
     if (endFrame != null) {
-      startFrame = endFrame! - videoDuration.inMilliseconds;
+      startFrameCorrection =
+          endFrame! - this.startFrame! - videoDuration.inMilliseconds;
+      startFrame = this.startFrame! + startFrameCorrection;
       normalizationMethod = NormalizationMethod.endTimestampAndDuration;
     } else {
       startFrame = this.startFrame ?? 0;
@@ -101,6 +107,7 @@ class MetadataLog {
           .toList(),
       logs: logs,
       normalizationMethod: normalizationMethod,
+      startFrameCorrection: startFrameCorrection,
     );
   }
 }
