@@ -573,30 +573,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
-  rx_bloc:
-    dependency: transitive
-    description:
-      name: rx_bloc
-      sha256: "22919d1c30b64702c63ff67f0c9a6ca615e43e637022544c6d14f0297fd37afa"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.1"
-  rx_bloc_generator:
-    dependency: "direct dev"
-    description:
-      name: rx_bloc_generator
-      sha256: e51d83485ace36e6bf5bb572069a251c316abef0ab65329743dc5a88f4936730
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.2"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.27.7"
   safe_local_storage:
     dependency: transitive
     description:

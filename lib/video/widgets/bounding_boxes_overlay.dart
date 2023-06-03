@@ -60,8 +60,6 @@ class BoundingBoxesPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(BoundingBoxesPainter oldDelegate) => true;
-
-  @override
-  bool shouldRebuildSemantics(BoundingBoxesPainter oldDelegate) => true;
+  bool shouldRepaint(BoundingBoxesPainter oldDelegate) =>
+      oldDelegate.detections != detections;
 }
