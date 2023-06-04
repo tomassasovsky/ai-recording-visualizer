@@ -36,8 +36,8 @@ class MetadataLog {
   final int? endFrame;
   final Map<int, List<Box>> ballDetections;
   final Map<int, List<Box>> hoopDetections;
-  final List<TurnAction> turnActions;
-  final List<ZoomAdjustment> zoomAdjustments;
+  final Map<int, TurnAction> turnActions;
+  final Map<int, double> zoomAdjustments;
   final List<String> logs;
   @JsonKey(includeFromJson: false)
   final NormalizationMethod? normalizationMethod;
@@ -92,6 +92,18 @@ class MetadataLog {
       hoopDetections[entry.key - startFrame] = detections;
     }
 
+    final turnActions = <int, TurnAction>{};
+    for (final entry in this.turnActions.entries) {
+      turnActions[entry.key - startFrame] = entry.value.copyWith(
+        timestamp: entry.value.timestamp - startFrame,
+      );
+    }
+
+    final zoomAdjustments = <int, double>{};
+    for (final entry in this.zoomAdjustments.entries) {
+      zoomAdjustments[entry.key - startFrame] = entry.value;
+    }
+
     return MetadataLog(
       inputSize: inputSize,
       sensorMetadata: sensorMetadata,
@@ -99,12 +111,8 @@ class MetadataLog {
       endFrame: max(0, (endFrame ?? 0) - startFrame),
       ballDetections: ballDetections,
       hoopDetections: hoopDetections,
-      turnActions: turnActions
-          .map((e) => e.copyWith(timestamp: e.timestamp - startFrame))
-          .toList(),
-      zoomAdjustments: zoomAdjustments
-          .map((e) => e.copyWith(timestamp: e.timestamp - startFrame))
-          .toList(),
+      turnActions: turnActions,
+      zoomAdjustments: zoomAdjustments,
       logs: logs,
       normalizationMethod: normalizationMethod,
       startFrameCorrection: startFrameCorrection,

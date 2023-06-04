@@ -37,6 +37,9 @@ class TurnAction {
       timestamp ?? this.timestamp,
     );
   }
+
+  double get target =>
+      direction == Direction.left ? startPoint - angle : startPoint + angle;
 }
 
 enum Direction {

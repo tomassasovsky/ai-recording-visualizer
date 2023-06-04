@@ -55,15 +55,34 @@ class VideoCubit extends Cubit<VideoState> {
       threshold: 150,
     );
 
+    final nearestTurnActionTimeStamp = turnActionTimeStampsList?.nearestIndex(
+      target: position.inMilliseconds,
+      threshold: 600,
+    );
+
+    final nearestZoomAdjustmentTimeStamp =
+        zoomAdjustmentsTimeStampsList?.nearestIndex(
+      target: position.inMilliseconds,
+      threshold: 600,
+    );
+
     final ballDetections =
         normalizedMetadataLog?.ballDetections[nearestTimeStamp] ?? [];
     final hoopDetections =
         normalizedMetadataLog?.ballDetections[nearestTimeStamp] ?? [];
 
+    final turnAction =
+        normalizedMetadataLog?.turnActions[nearestTurnActionTimeStamp];
+
+    final zoomAdjustment =
+        normalizedMetadataLog?.zoomAdjustments[nearestZoomAdjustmentTimeStamp];
+
     emit(
       VideoState(
         ballDetections: ballDetections,
         hoopDetections: hoopDetections,
+        turnAction: turnAction,
+        zoomAdjustment: zoomAdjustment,
       ),
     );
   }
@@ -81,6 +100,12 @@ class VideoCubit extends Cubit<VideoState> {
       ...?hoopDetectionsTimeStamps,
     }.toList()
       ..sort();
+
+    turnActionTimeStampsList = normalizedMetadataLog?.turnActions.keys.toList()
+      ?..sort();
+
+    zoomAdjustmentsTimeStampsList =
+        normalizedMetadataLog?.zoomAdjustments.keys.toList()?..sort();
   }
 
   @override
@@ -97,6 +122,8 @@ class VideoCubit extends Cubit<VideoState> {
   late final controller = VideoController(player);
   final Player player = Player();
   List<int>? totalTimeStampsList;
+  List<int>? turnActionTimeStampsList;
+  List<int>? zoomAdjustmentsTimeStampsList;
   StreamSubscription<Duration>? _durationSubscription;
   StreamSubscription<Duration>? _positionSubscription;
   MetadataLog? normalizedMetadataLog;

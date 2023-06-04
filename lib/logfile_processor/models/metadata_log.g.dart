@@ -26,11 +26,12 @@ MetadataLog _$MetadataLogFromJson(Map<String, dynamic> json) => MetadataLog(
                 .map((e) => Box.fromJson(e as Map<String, dynamic>))
                 .toList()),
       ),
-      turnActions: (json['turnActions'] as List<dynamic>)
-          .map((e) => TurnAction.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      zoomAdjustments: (json['zoomAdjustments'] as List<dynamic>)
-          .map((e) => ZoomAdjustment.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      turnActions: (json['turnActions'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(
+            int.parse(k), TurnAction.fromJson(e as Map<String, dynamic>)),
+      ),
+      zoomAdjustments: (json['zoomAdjustments'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(int.parse(k), (e as num).toDouble()),
+      ),
       logs: (json['logs'] as List<dynamic>).map((e) => e as String).toList(),
     );
