@@ -1,5 +1,8 @@
 import 'package:ai_recording_visualizer/logfile_processor/logfile_processor.dart';
 import 'package:ai_recording_visualizer/video/video.dart';
+import 'package:ai_recording_visualizer/video/widgets/ball_detections.dart';
+import 'package:ai_recording_visualizer/video/widgets/turn_action_detections.dart';
+import 'package:ai_recording_visualizer/video/widgets/zoom_adjustment_detections.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,8 +46,6 @@ class VideoView extends StatefulWidget {
 
 class _VideoViewState extends State<VideoView> {
   VideoCubit get cubit => context.read<VideoCubit>();
-  Color hoopColor = Colors.red;
-  Color ballColor = Colors.yellow;
 
   @override
   void initState() {
@@ -70,37 +71,9 @@ class _VideoViewState extends State<VideoView> {
               fit: StackFit.expand,
               children: [
                 Video(controller: cubit.controller),
-                BlocBuilder<VideoCubit, VideoState>(
-                  builder: (context, state) {
-                    final ballDetections = state.ballDetections;
-                    final hoopDetections = state.hoopDetections;
-
-                    final detections = {
-                      hoopColor: hoopDetections,
-                      ballColor: ballDetections,
-                    };
-
-                    return ValueListenableBuilder(
-                      valueListenable: cubit.controller.notifier,
-                      builder: (context, value, child) {
-                        final rect = value?.rect.value;
-                        if (rect == null) {
-                          return const SizedBox();
-                        }
-
-                        final aspectRatio = rect.width / rect.height;
-                        if (aspectRatio.isNaN || aspectRatio == 0) {
-                          return BoundingBoxesOverlay(detections);
-                        }
-
-                        return AspectRatio(
-                          aspectRatio: aspectRatio,
-                          child: BoundingBoxesOverlay(detections),
-                        );
-                      },
-                    );
-                  },
-                ),
+                const BallDetections(),
+                const TurnActionDetections(),
+                const ZoomAdjustmentDetections(),
               ],
             ),
           ),
