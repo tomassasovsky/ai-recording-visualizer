@@ -36,6 +36,7 @@ dev_dependencies:
   icons_launcher: ^2.1.0
   json_serializable: ^6.7.0
   mocktail: ^0.3.0
+  msix: ^3.14.1
   very_good_analysis: ^5.0.0+1
 
 flutter:
@@ -44,3 +45,14 @@ flutter:
 
   assets:
     - assets/
+
+msix_config:
+  display_name: AI Recording Visualizer
+  identity_name: 23080TomsSasovsky.AIRecordingVisualizer
+  publisher_display_name: Tomás Sasovsky
+  publisher: CN=0614BB1B-E86A-4B59-BA5B-0E6934A8FF36
+  languages: en-US, es-ES
+  logo_path: assets/app_icon.png
+  msix_version: 1.0.0.1
+  certificate_path: cert/CERTIFICATE_AI_REC_VIS.pfx
+  store: true
