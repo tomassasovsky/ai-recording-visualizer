@@ -3,8 +3,8 @@ import 'package:ai_recording_visualizer/video/widgets/bounding_boxes_overlay.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BallDetections extends StatelessWidget {
-  const BallDetections({super.key});
+class BoxDetections extends StatelessWidget {
+  const BoxDetections({super.key});
 
   static Color hoopColor = Colors.red;
   static Color ballColor = Colors.yellow;
@@ -34,9 +34,11 @@ class BallDetections extends StatelessWidget {
               return BoundingBoxesOverlay(detections);
             }
 
-            return AspectRatio(
-              aspectRatio: aspectRatio,
-              child: BoundingBoxesOverlay(detections),
+            return Center(
+              child: AspectRatio(
+                aspectRatio: aspectRatio,
+                child: BoundingBoxesOverlay(detections),
+              ),
             );
           },
         );
