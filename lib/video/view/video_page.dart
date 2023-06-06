@@ -68,7 +68,7 @@ class _VideoViewState extends State<VideoView> {
               fit: StackFit.expand,
               children: [
                 Video(controller: cubit.controller),
-                const BallDetections(),
+                const BoxDetections(),
                 const TurnActionWidget(),
                 const ZoomAdjustmentWidget(),
               ],
