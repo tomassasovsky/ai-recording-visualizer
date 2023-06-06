@@ -52,18 +52,18 @@ class VideoCubit extends Cubit<VideoState> {
 
     final nearestTimeStamp = totalTimeStampsList?.nearestIndex(
       target: position.inMilliseconds,
-      threshold: 150,
+      threshold: 100,
     );
 
     final nearestTurnActionTimeStamp = turnActionTimeStampsList?.nearestIndex(
       target: position.inMilliseconds,
-      threshold: 600,
+      threshold: 100,
     );
 
     final nearestZoomAdjustmentTimeStamp =
         zoomAdjustmentsTimeStampsList?.nearestIndex(
       target: position.inMilliseconds,
-      threshold: 600,
+      threshold: 100,
     );
 
     final ballDetections =

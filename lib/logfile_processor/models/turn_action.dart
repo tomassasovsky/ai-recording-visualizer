@@ -12,6 +12,8 @@ class TurnAction {
     this.timestamp,
   );
 
+  factory TurnAction.empty() => TurnAction(0, 0, 0, Direction.left, 0);
+
   factory TurnAction.fromJson(Map<String, dynamic> json) =>
       _$TurnActionFromJson(json);
 
