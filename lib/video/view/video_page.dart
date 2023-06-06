@@ -1,8 +1,5 @@
 import 'package:ai_recording_visualizer/logfile_processor/logfile_processor.dart';
 import 'package:ai_recording_visualizer/video/video.dart';
-import 'package:ai_recording_visualizer/video/widgets/ball_detections.dart';
-import 'package:ai_recording_visualizer/video/widgets/turn_action_detections.dart';
-import 'package:ai_recording_visualizer/video/widgets/zoom_adjustment_detections.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,8 +69,8 @@ class _VideoViewState extends State<VideoView> {
               children: [
                 Video(controller: cubit.controller),
                 const BallDetections(),
-                const TurnActionDetections(),
-                const ZoomAdjustmentDetections(),
+                const TurnActionWidget(),
+                const ZoomAdjustmentWidget(),
               ],
             ),
           ),
