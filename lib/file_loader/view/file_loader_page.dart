@@ -1,4 +1,5 @@
 import 'package:ai_recording_visualizer/file_loader/file_loader.dart';
+import 'package:ai_recording_visualizer/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,7 +30,7 @@ class FileLoaderView extends StatefulWidget {
 }
 
 class _FileLoaderViewState extends State<FileLoaderView> {
-  final ValueNotifier<bool> filesLoaded = ValueNotifier(false);
+  final PageController pageController = PageController();
 
   VideoFileLoaderCubit get videoFileLoaderCubit =>
       context.read<VideoFileLoaderCubit>();
@@ -37,21 +38,7 @@ class _FileLoaderViewState extends State<FileLoaderView> {
       context.read<LogFileLoaderCubit>();
 
   @override
-  void initState() {
-    super.initState();
-    videoFileLoaderCubit.stream.listen(
-      (event) => filesLoaded.value = event is FileLoaderLoaded &&
-          logFileLoaderCubit.state is FileLoaderLoaded,
-    );
-    logFileLoaderCubit.stream.listen(
-      (event) => filesLoaded.value = event is FileLoaderLoaded &&
-          videoFileLoaderCubit.state is FileLoaderLoaded,
-    );
-  }
-
-  @override
   void dispose() {
-    filesLoaded.dispose();
     logFileLoaderCubit.close();
     videoFileLoaderCubit.close();
     super.dispose();
@@ -59,49 +46,112 @@ class _FileLoaderViewState extends State<FileLoaderView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FilePickerButton<VideoFileLoaderCubit>(),
-            SizedBox(width: 8),
-            FilePickerButton<LogFileLoaderCubit>(),
-          ],
+    return BlocListener<VideoFileLoaderCubit, FileLoaderState>(
+      listener: (context, state) {
+        if (state is FileLoaderLoaded && pageController.page == 0) {
+          pageController.nextPage(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
+          logFileLoaderCubit.getLogRemotely(state.uuid()!);
+        }
+      },
+      child: Scaffold(
+        body: PageView.builder(
+          controller: pageController,
+          itemCount: 2,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            return index == 0
+                ? const FilePickerButton<VideoFileLoaderCubit>()
+                : Stack(
+                    children: [
+                      const FilePickerButton<LogFileLoaderCubit>(),
+                      Positioned(
+                        left: 16,
+                        bottom: 16,
+                        child: FloatingActionButton(
+                          onPressed: () => pageController.previousPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          ),
+                          heroTag: 'back',
+                          backgroundColor: Colors.black87,
+                          child: const Icon(Icons.arrow_back),
+                        ),
+                      )
+                    ],
+                  );
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: nextButton,
+          backgroundColor: Colors.black87,
+          heroTag: 'play',
+          child: const Icon(Icons.arrow_forward),
         ),
       ),
-      floatingActionButton: ValueListenableBuilder<bool>(
-        valueListenable: filesLoaded,
-        builder: (context, value, child) {
-          if (value) {
-            return FloatingActionButton(
-              onPressed: () {
-                final logFileState = logFileLoaderCubit.state;
-                final videoFileState = videoFileLoaderCubit.state;
-                if (logFileState is! FileLoaderLoaded ||
-                    videoFileState is! FileLoaderLoaded) {
-                  return;
-                }
-
-                final videoFile = videoFileState.file;
-                final metadata = logFileState.parseMetadataSync();
-
-                Navigator.of(context).pushNamed(
-                  '/video-player',
-                  arguments: {
-                    'videoPath': videoFile.path,
-                    'metadataLog': metadata,
-                  },
-                );
-              },
-              child: const Icon(Icons.arrow_forward),
-            );
-          }
-
-          return const SizedBox();
-        },
-      ),
     );
+  }
+
+  void nextButton() {
+    final logFileState = logFileLoaderCubit.state;
+    final videoFileState = videoFileLoaderCubit.state;
+    final currentPage = pageController.page?.toInt() ?? 0;
+    if (currentPage == 0 && videoFileState is FileLoaderLoaded) {
+      pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+      return;
+    } else if (currentPage == 1 &&
+        logFileState is FileLoaderLoaded &&
+        videoFileState is FileLoaderLoaded) {
+      final videoFile = videoFileState.file;
+      final metadata = logFileState.parseMetadataSync();
+      Navigator.of(context).pushNamed(
+        '/video-player',
+        arguments: {
+          'videoPath': videoFile.path,
+          'metadataLog': metadata,
+        },
+      );
+      return;
+    }
+
+    noFileLoadedBanner();
+  }
+
+  void noFileLoadedBanner() {
+    final l10n = context.l10n;
+
+    Future<void> hideBanner() async {
+      await Future<void>.delayed(const Duration(seconds: 2));
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).hideCurrentMaterialBanner(
+          reason: MaterialBannerClosedReason.dismiss,
+        );
+      }
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showMaterialBanner(
+        MaterialBanner(
+          content: Text(l10n.fileNotSetPleaseSelect),
+          actions: [
+            TextButton(
+              onPressed: hideBanner,
+              child: Text(l10n.close),
+            ),
+          ],
+          onVisible: hideBanner,
+          animation: AnimationController(
+            vsync: ScaffoldMessenger.of(context),
+            duration: const Duration(seconds: 2),
+          ),
+        ),
+      );
+    });
   }
 }

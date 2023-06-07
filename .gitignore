@@ -127,3 +127,7 @@ app.*.map.json
 !.idea/runConfigurations/
 
 cert
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

@@ -12,5 +12,7 @@
     "recordingDuration": "Duración de la grabación: {duration}",
     "recordingEndTimestamp": "Fecha de finalización de la grabación: {timestamp}",
     "logFrameSyncCorrection": "Corrección de sincronización de fotogramas: {correction}ms",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "logFileNotFoundRemotely": "El archivo de registro no se encontró en el servidor remoto.",
+    "fileNotSetPleaseSelect": "El archivo no se ha seleccionado. Por favor, seleccione un archivo."
 }
