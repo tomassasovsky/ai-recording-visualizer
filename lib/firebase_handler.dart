@@ -6,7 +6,6 @@ import 'package:firebase_dart/implementation/pure_dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:platform_info/platform_info.dart' as platform_info;
@@ -15,8 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 class FirebaseHandler {
   static const _channel = MethodChannel('firebase_dart_flutter');
 
-  static Future<void> setup(
-    DotEnv dotEnv, {
+  static Future<void> setup({
     bool isolate = !kIsWeb,
   }) async {
     final isolated = isolate && !kIsWeb;
@@ -40,7 +38,7 @@ class FirebaseHandler {
     );
 
     await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform(dotEnv),
+      options: DefaultFirebaseOptions.currentPlatform(),
     );
   }
 

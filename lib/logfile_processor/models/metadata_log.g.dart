@@ -8,8 +8,10 @@ part of 'metadata_log.dart';
 
 MetadataLog _$MetadataLogFromJson(Map<String, dynamic> json) => MetadataLog(
       inputSize: json['inputSize'] as int,
-      sensorMetadata: SensorMetadata.fromJson(
-          json['sensorMetadata'] as Map<String, dynamic>),
+      sensorMetadata: json['sensorMetadata'] == null
+          ? null
+          : SensorMetadata.fromJson(
+              json['sensorMetadata'] as Map<String, dynamic>),
       startFrame: json['startFrame'] as int?,
       endFrame: json['endFrame'] as int?,
       ballDetections: (json['ballDetections'] as Map<String, dynamic>).map(

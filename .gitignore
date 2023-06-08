@@ -131,3 +131,5 @@ cert
 .flaskenv*
 !.env.project
 !.env.vault
+
+**environment.g.dart
