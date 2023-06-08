@@ -2,9 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:ai_recording_visualizer/firebase_handler.dart';
-import 'package:ai_recording_visualizer/flavour_environments.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:media_kit/media_kit.dart';
 
@@ -36,13 +34,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
       WidgetsFlutterBinding.ensureInitialized();
       MediaKit.ensureInitialized();
 
-      if (kDebugMode) {
-        await DotEnvFlavour.development.initialize();
-      } else {
-        await DotEnvFlavour.production.initialize();
-      }
-
-      await FirebaseHandler.setup(dotEnvFlavour.dotEnv);
+      await FirebaseHandler.setup();
 
       runApp(await builder());
     },
