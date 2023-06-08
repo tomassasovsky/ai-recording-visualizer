@@ -12,6 +12,8 @@ class SensorMetadata {
     this.focalLength,
   );
 
+  factory SensorMetadata.empty() => SensorMetadata(0, 0, 0, 0, 0);
+
   factory SensorMetadata.fromJson(Map<String, dynamic> json) =>
       _$SensorMetadataFromJson(json);
 

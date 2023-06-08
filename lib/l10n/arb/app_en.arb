@@ -12,5 +12,7 @@
     "recordingDuration": "Recording duration: {duration}",
     "recordingEndTimestamp": "Recording end timestamp: {timestamp}",
     "logFrameSyncCorrection": "Log frame sync correction: {correction}ms",
-    "close": "Close"
+    "close": "Close",
+    "logFileNotFoundRemotely": "Log file not found remotely",
+    "fileNotSetPleaseSelect": "File not set, please select first"
 }

@@ -31,7 +31,7 @@ class MetadataLog {
       _$MetadataLogFromJson(json);
 
   final int inputSize;
-  final SensorMetadata sensorMetadata;
+  final SensorMetadata? sensorMetadata;
   final int? startFrame;
   final int? endFrame;
   final Map<int, List<Box>> ballDetections;

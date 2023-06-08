@@ -1,5 +1,6 @@
 import 'package:ai_recording_visualizer/logfile_processor/logfile_processor.dart';
 import 'package:ai_recording_visualizer/video/video.dart';
+import 'package:ai_recording_visualizer/video/widgets/back_button.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,11 +43,12 @@ class VideoView extends StatefulWidget {
 }
 
 class _VideoViewState extends State<VideoView> {
-  VideoCubit get cubit => context.read<VideoCubit>();
+  late VideoCubit cubit;
 
   @override
   void initState() {
     super.initState();
+    cubit = context.read<VideoCubit>();
     WidgetsBinding.instance.addPostFrameCallback((_) => cubit.init());
   }
 
@@ -77,6 +79,8 @@ class _VideoViewState extends State<VideoView> {
           InfoOverlay(onPressed: showInfo),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButton: CloseVideo(onPressed: cubit.close),
     );
   }
 
@@ -92,7 +96,7 @@ class _VideoViewState extends State<VideoView> {
 
     await MetadataPopup(
       inputSize: inputSize,
-      sensorMetadata: sensorMetadata,
+      sensorMetadata: sensorMetadata ?? SensorMetadata.empty(),
       startFrame: startFrame,
       endFrame: endFrame,
       startFrameCorrection: startFrameCorrection,

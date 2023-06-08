@@ -51,19 +51,19 @@ class VideoCubit extends Cubit<VideoState> {
     }
 
     final nearestTimeStamp = totalTimeStampsList?.nearestIndex(
-      target: position.inMilliseconds,
-      threshold: 50,
+      target: position.inMilliseconds - 150,
+      threshold: 30,
     );
 
     final nearestTurnActionTimeStamp = turnActionTimeStampsList?.nearestIndex(
-      target: position.inMilliseconds,
-      threshold: 50,
+      target: position.inMilliseconds - 150,
+      threshold: 30,
     );
 
     final nearestZoomAdjustmentTimeStamp =
         zoomAdjustmentsTimeStampsList?.nearestIndex(
-      target: position.inMilliseconds,
-      threshold: 50,
+      target: position.inMilliseconds - 150,
+      threshold: 30,
     );
 
     final ballDetections =
@@ -112,7 +112,9 @@ class VideoCubit extends Cubit<VideoState> {
   Future<void> close() async {
     await _durationSubscription?.cancel();
     await _positionSubscription?.cancel();
-    await player.dispose();
+    try {
+      await player.dispose();
+    } catch (_) {}
     return super.close();
   }
 
