@@ -1,4 +1,5 @@
 import 'package:ai_recording_visualizer/file_loader/file_loader.dart';
+import 'package:ai_recording_visualizer/helpers/show_banner.dart';
 import 'package:ai_recording_visualizer/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -119,39 +120,10 @@ class _FileLoaderViewState extends State<FileLoaderView> {
       return;
     }
 
-    noFileLoadedBanner();
-  }
-
-  void noFileLoadedBanner() {
     final l10n = context.l10n;
-
-    Future<void> hideBanner() async {
-      await Future<void>.delayed(const Duration(seconds: 2));
-
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).hideCurrentMaterialBanner(
-          reason: MaterialBannerClosedReason.dismiss,
-        );
-      }
-    }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ScaffoldMessenger.of(context).showMaterialBanner(
-        MaterialBanner(
-          content: Text(l10n.fileNotSetPleaseSelect),
-          actions: [
-            TextButton(
-              onPressed: hideBanner,
-              child: Text(l10n.close),
-            ),
-          ],
-          onVisible: hideBanner,
-          animation: AnimationController(
-            vsync: ScaffoldMessenger.of(context),
-            duration: const Duration(seconds: 2),
-          ),
-        ),
-      );
-    });
+    showRemoteErrorDialog(
+      context,
+      errorMessage: l10n.fileNotSetPleaseSelect,
+    );
   }
 }
