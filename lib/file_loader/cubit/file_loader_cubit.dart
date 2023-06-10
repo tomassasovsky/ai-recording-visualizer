@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ai_recording_visualizer/logfile_processor/models/metadata_log.dart';
 import 'package:bloc/bloc.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_dart/firebase_dart.dart';
 import 'package:flutter/foundation.dart';
@@ -19,6 +20,10 @@ enum FileLoaderType {
       case FileLoaderType.video:
         return 'mp4';
     }
+  }
+
+  bool isValid(String fileName) {
+    return fileName.endsWith(extension);
   }
 }
 
@@ -39,27 +44,36 @@ class FileLoaderCubit extends Cubit<FileLoaderState> {
     _safeEmit(const FileLoaderInitial());
   }
 
-  Future<void> loadFile() async {
+  Future<void> loadFile({
+    XFile? file,
+  }) async {
     if (state is FileLoaderLoading) {
       return;
     }
 
     _safeEmit(const FileLoaderLoading());
 
-    final pickedFile = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: [fileLoaderType.extension],
-      // only load file contents if it's a json file
-      withData: fileLoaderType == FileLoaderType.json,
-    );
+    if (file == null) {
+      final pickedFile = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: [fileLoaderType.extension],
+        // only load file contents if it's a json file
+        withData: fileLoaderType == FileLoaderType.json,
+      );
 
-    if (pickedFile == null) {
-      _safeEmit(const FileLoaderError());
-      return;
+      if (pickedFile == null) {
+        _safeEmit(const FileLoaderError());
+        return;
+      }
+
+      final file = pickedFile.files.single;
+      _safeEmit(FileLoaderLoaded(file));
+    } else {
+      final platformFile = await file.toPlatformFile(
+        loadData: fileLoaderType == FileLoaderType.json,
+      );
+      _safeEmit(FileLoaderLoaded(platformFile));
     }
-
-    final file = pickedFile.files.single;
-    _safeEmit(FileLoaderLoaded(file));
   }
 
   Future<void> getLogRemotely(String uuid) async {
@@ -108,6 +122,29 @@ class FileLoaderCubit extends Cubit<FileLoaderState> {
   void _safeEmit(FileLoaderState state) {
     if (!isClosed) {
       emit(state);
+    }
+  }
+}
+
+extension ToPlatformFile on XFile {
+  Future<PlatformFile> toPlatformFile({
+    bool loadData = false,
+  }) async {
+    if (loadData) {
+      final bytes = await readAsBytes();
+      return PlatformFile(
+        name: name,
+        size: bytes.length,
+        path: path,
+        bytes: bytes,
+      );
+    } else {
+      final size = await length();
+      return PlatformFile(
+        name: name,
+        size: size,
+        path: path,
+      );
     }
   }
 }

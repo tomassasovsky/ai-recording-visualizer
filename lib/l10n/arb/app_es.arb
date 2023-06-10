@@ -14,5 +14,7 @@
     "logFrameSyncCorrection": "Corrección de sincronización de fotogramas: {correction}ms",
     "close": "Cerrar",
     "logFileNotFoundRemotely": "El archivo de registro no se encontró en el servidor remoto.",
-    "fileNotSetPleaseSelect": "El archivo no se ha seleccionado. Por favor, seleccione un archivo."
+    "fileNotSetPleaseSelect": "El archivo no se ha seleccionado. Por favor, seleccione un archivo.",
+    "invalidFileType": "Tipo de archivo inválido. Por favor, seleccione un archivo de {type}.",
+    "onlyOneFileAllowed": "Solo se permite un archivo."
 }

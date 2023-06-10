@@ -14,5 +14,7 @@
     "logFrameSyncCorrection": "Log frame sync correction: {correction}ms",
     "close": "Close",
     "logFileNotFoundRemotely": "Log file not found remotely",
-    "fileNotSetPleaseSelect": "File not set, please select first"
+    "fileNotSetPleaseSelect": "File not set, please select first",
+    "invalidFileType": "Invalid file type. Please select a {type} file.",
+    "onlyOneFileAllowed": "Only one file allowed"
 }
