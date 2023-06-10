@@ -17,13 +17,13 @@ import 'package:flutter/foundation.dart'
 /// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions currentPlatform() {
-    final projectId = environment.FIREBASE_PROJECT_ID;
-    final measurementId = environment.FIREBASE_MEASUREMENT_ID;
-    final messagingSenderId = environment.FIREBASE_MESSAGING_SENDER_ID;
+    final projectId = environment.firebaseProjectId;
+    final measurementId = environment.firebaseMeasurementId;
+    final messagingSenderId = environment.firebaseMessagingSenderId;
 
     final web = FirebaseOptions(
-      apiKey: environment.FIREBASE_WEB_API_KEY,
-      appId: environment.FIREBASE_WEB_APP_ID,
+      apiKey: environment.firebaseWebApiKey,
+      appId: environment.firebaseWebAppId,
       messagingSenderId: messagingSenderId,
       projectId: projectId,
       authDomain: '$projectId.firebaseapp.com',
@@ -32,52 +32,52 @@ class DefaultFirebaseOptions {
     );
 
     final android = FirebaseOptions(
-      apiKey: environment.FIREBASE_ANDROID_API_KEY,
-      appId: environment.FIREBASE_ANDROID_APP_ID,
+      apiKey: environment.firebaseAndroidApiKey,
+      appId: environment.firebaseAndroidAppId,
       messagingSenderId: messagingSenderId,
       projectId: projectId,
       storageBucket: '$projectId.appspot.com',
     );
 
     final ios = FirebaseOptions(
-      apiKey: environment.FIREBASE_IOS_API_KEY,
-      appId: environment.FIREBASE_IOS_APP_ID,
+      apiKey: environment.firebaseIosApiKey,
+      appId: environment.firebaseIosAppId,
       messagingSenderId: messagingSenderId,
       projectId: projectId,
       storageBucket: '$projectId.appspot.com',
-      iosClientId: environment.FIREBASE_IOS_CLIENT_ID,
+      iosClientId: environment.firebaseIosClientId,
       iosBundleId: 'com.example.aiRecordingVisualizer',
     );
 
     final macos = FirebaseOptions(
-      apiKey: environment.FIREBASE_MACOS_API_KEY,
-      appId: environment.FIREBASE_MACOS_APP_ID,
+      apiKey: environment.firebaseMacosApiKey,
+      appId: environment.firebaseMacosAppId,
       messagingSenderId: messagingSenderId,
       projectId: projectId,
       storageBucket: '$projectId.appspot.com',
-      iosClientId: environment.FIREBASE_MACOS_CLIENT_ID,
+      iosClientId: environment.firebaseMacosClientId,
       iosBundleId: 'com.example.aiRecordingVisualizer.RunnerTests',
     );
 
     final windows = FirebaseOptions(
-      apiKey: environment.FIREBASE_WINDOWS_API_KEY,
-      appId: environment.FIREBASE_WINDOWS_APP_ID,
+      apiKey: environment.firebaseWindowsApiKey,
+      appId: environment.firebaseWindowsAppId,
       messagingSenderId: messagingSenderId,
       projectId: projectId,
       storageBucket: '$projectId.appspot.com',
     );
 
     final linux = FirebaseOptions(
-      apiKey: environment.FIREBASE_LINUX_API_KEY,
-      appId: environment.FIREBASE_LINUX_APP_ID,
+      apiKey: environment.firebaseLinuxApiKey,
+      appId: environment.firebaseLinuxAppId,
       messagingSenderId: messagingSenderId,
       projectId: projectId,
       storageBucket: '$projectId.appspot.com',
     );
 
     final fuchsia = FirebaseOptions(
-      apiKey: environment.FIREBASE_FUCHSIA_API_KEY,
-      appId: environment.FIREBASE_FUCHSIA_APP_ID,
+      apiKey: environment.firebaseFuchsiaApiKey,
+      appId: environment.firebaseFuchsiaAppId,
       messagingSenderId: messagingSenderId,
       projectId: projectId,
       storageBucket: '$projectId.appspot.com',
