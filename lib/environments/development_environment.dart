@@ -1,5 +1,5 @@
 import 'package:ai_recording_visualizer/environments/environments.dart';
-import 'package:dotenv_gen/dotenv_gen.dart';
+import 'package:secure_dotenv/secure_dotenv.dart';
 
 part 'development_environment.g.dart';
 
