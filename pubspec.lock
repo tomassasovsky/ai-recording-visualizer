@@ -197,10 +197,10 @@ packages:
     dependency: "direct main"
     description:
       name: collection
-      sha256: "4a07be6cb69c84d677a6c3096fcf960cc3285a8330b4603e0d463d15d9bd934c"
+      sha256: f092b211a4319e98e5ff58223576de6c2803db36221657b46c82574721240687
       url: "https://pub.dev"
     source: hosted
-    version: "1.17.1"
+    version: "1.17.2"
   console:
     dependency: transitive
     description:
@@ -265,24 +265,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
-  dotenv_gen:
-    dependency: "direct main"
+  encrypt:
+    dependency: transitive
     description:
-      path: dotenv_gen
-      ref: HEAD
-      resolved-ref: "6270e26629a76b7fa9e86d13605c43b31be2757e"
-      url: "https://github.com/tomassasovsky/dotenv_gen.git"
-    source: git
-    version: "0.0.2"
-  dotenv_gen_runner:
-    dependency: "direct dev"
-    description:
-      path: dotenv_gen_runner
-      ref: HEAD
-      resolved-ref: "6270e26629a76b7fa9e86d13605c43b31be2757e"
-      url: "https://github.com/tomassasovsky/dotenv_gen.git"
-    source: git
-    version: "0.0.3"
+      name: encrypt
+      sha256: "4fd4e4fdc21b9d7d4141823e1e6515cd94e7b8d84749504c232999fba25d9bbb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.1"
   equatable:
     dependency: "direct main"
     description:
@@ -840,6 +830,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  secure_dotenv:
+    dependency: "direct main"
+    description:
+      name: secure_dotenv
+      sha256: a544725e7ce5768caf31b6ac8edfefdac59a4c7dd6fc7ef55694a971e8e8d298
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
+  secure_dotenv_generator:
+    dependency: "direct dev"
+    description:
+      name: secure_dotenv_generator
+      sha256: c282f51f65f726985bdfdb3284607e85116259a1651682ab6d40880af28ebb36
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   shelf:
     dependency: transitive
     description:
