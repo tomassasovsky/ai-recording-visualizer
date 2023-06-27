@@ -54,7 +54,7 @@ class _VideoViewState extends State<VideoView> {
 
   @override
   void dispose() {
-    cubit.close();
+    Future.delayed(Duration.zero, cubit.close);
     super.dispose();
   }
 

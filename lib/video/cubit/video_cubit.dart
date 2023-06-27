@@ -110,11 +110,11 @@ class VideoCubit extends Cubit<VideoState> {
 
   @override
   Future<void> close() async {
-    await _durationSubscription?.cancel();
-    await _positionSubscription?.cancel();
     try {
       await player.dispose();
     } catch (_) {}
+    await _durationSubscription?.cancel();
+    await _positionSubscription?.cancel();
     return super.close();
   }
 
