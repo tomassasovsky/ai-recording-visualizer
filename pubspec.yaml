@@ -1,6 +1,6 @@
 name: ai_recording_visualizer
 description: A Very Good Project created by Very Good CLI.
-version: 1.0.0+1
+version: 1.1.0+1
 publish_to: none
 
 environment:
@@ -68,7 +68,7 @@ msix_config:
   publisher: CN=0614BB1B-E86A-4B59-BA5B-0E6934A8FF36
   languages: en-US, es-ES
   logo_path: assets/app_icon.png
-  msix_version: 1.0.1.0
+  msix_version: 1.1.0.0
   certificate_path: cert/CERTIFICATE_AI_REC_VIS.pfx
   capabilites: internetClient
   store: true
