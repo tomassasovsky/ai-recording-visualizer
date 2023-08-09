@@ -133,3 +133,4 @@ cert
 !.env.vault
 
 **environment.g.dart
+encryption_key.json
