@@ -6,7 +6,7 @@ part 'production_environment.g.dart';
 @DotEnvGen(filename: '.env/.env.production')
 abstract class ProductionEnvironment with Environment {
   // factory to init the generated class
-  const factory ProductionEnvironment(String encryptionKey) =
+  const factory ProductionEnvironment(String encryptionKey, String iv) =
       _$ProductionEnvironment;
 
   // an empty constructor is required

@@ -1,0 +1,14 @@
+flutter_app:
+  command: ai-recording-visualizer
+  arch: x64
+  parent: /usr/local/lib
+
+control:
+  Package: ai-recording-visualizer
+  Version: 1.0.0
+  Architecture: amd64
+  Essential: no
+  Priority: optional
+  Depends: libmpv-dev, mpv
+  Maintainer: sports-visio
+  Description: AI Recording Visualizer

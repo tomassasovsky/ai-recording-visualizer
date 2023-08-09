@@ -45,6 +45,16 @@ class BoundingBoxesPainter extends CustomPainter {
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
+            children: [
+              TextSpan(
+                text: '\n${(box.score * 100).toInt()}%',
+                style: TextStyle(
+                  color: color,
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
           ),
           textDirection: TextDirection.ltr,
         );
@@ -53,7 +63,7 @@ class BoundingBoxesPainter extends CustomPainter {
           ..layout()
           ..paint(
             canvas,
-            Offset(rect.left, rect.top - textPainter.height),
+            Offset(rect.left, rect.top - textPainter.height - 4),
           );
       }
     }

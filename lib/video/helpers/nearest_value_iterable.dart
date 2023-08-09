@@ -3,6 +3,8 @@ extension NearestIndex on Iterable<int> {
     required int target,
     int threshold = 0,
   }) {
+    if (isEmpty) return null;
+
     var left = 0;
     var right = length - 1;
     var nearestValue = last;
