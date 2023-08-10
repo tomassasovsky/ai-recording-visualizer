@@ -14,26 +14,26 @@ MetadataLog _$MetadataLogFromJson(Map<String, dynamic> json) => MetadataLog(
               json['sensorMetadata'] as Map<String, dynamic>),
       startFrame: json['startFrame'] as int?,
       endFrame: json['endFrame'] as int?,
-      ballDetections: (json['ballDetections'] as Map<String, dynamic>).map(
+      ballDetections: (json['ballDetections'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(
             int.parse(k),
             (e as List<dynamic>)
                 .map((e) => Box.fromJson(e as Map<String, dynamic>))
                 .toList()),
       ),
-      hoopDetections: (json['hoopDetections'] as Map<String, dynamic>).map(
+      hoopDetections: (json['hoopDetections'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(
             int.parse(k),
             (e as List<dynamic>)
                 .map((e) => Box.fromJson(e as Map<String, dynamic>))
                 .toList()),
       ),
-      turnActions: (json['turnActions'] as Map<String, dynamic>).map(
+      turnActions: (json['turnActions'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(
             int.parse(k), TurnAction.fromJson(e as Map<String, dynamic>)),
       ),
-      zoomAdjustments: (json['zoomAdjustments'] as Map<String, dynamic>).map(
+      zoomAdjustments: (json['zoomAdjustments'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(int.parse(k), (e as num).toDouble()),
       ),
-      logs: (json['logs'] as List<dynamic>).map((e) => e as String).toList(),
+      logs: (json['logs'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );

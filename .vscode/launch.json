@@ -9,6 +9,10 @@
       "request": "launch",
       "type": "dart",
       "program": "lib/main.dart",
+      "toolArgs": [
+        "--dart-define-from-file",
+        "encryption_key.json"
+      ]
     }
   ]
 }

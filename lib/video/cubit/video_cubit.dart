@@ -25,8 +25,8 @@ class VideoCubit extends Cubit<VideoState> {
     await _durationSubscription?.cancel();
     await _positionSubscription?.cancel();
 
-    _durationSubscription = player.streams.duration.listen(_onDurationChanged);
-    _positionSubscription = player.streams.position.listen(_onPositionChanged);
+    _durationSubscription = player.stream.duration.listen(_onDurationChanged);
+    _positionSubscription = player.stream.position.listen(_onPositionChanged);
 
     await player.open(Media(videoPath), play: false);
   }
@@ -67,15 +67,15 @@ class VideoCubit extends Cubit<VideoState> {
     );
 
     final ballDetections =
-        normalizedMetadataLog?.ballDetections[nearestTimeStamp] ?? [];
+        normalizedMetadataLog?.ballDetections?[nearestTimeStamp] ?? [];
     final hoopDetections =
-        normalizedMetadataLog?.ballDetections[nearestTimeStamp] ?? [];
+        normalizedMetadataLog?.ballDetections?[nearestTimeStamp] ?? [];
 
     final turnAction =
-        normalizedMetadataLog?.turnActions[nearestTurnActionTimeStamp];
+        normalizedMetadataLog?.turnActions?[nearestTurnActionTimeStamp];
 
     final zoomAdjustment =
-        normalizedMetadataLog?.zoomAdjustments[nearestZoomAdjustmentTimeStamp];
+        normalizedMetadataLog?.zoomAdjustments?[nearestZoomAdjustmentTimeStamp];
 
     emit(
       VideoState(
@@ -92,29 +92,29 @@ class VideoCubit extends Cubit<VideoState> {
         metadataLog.normalizeTimestamps(videoDuration: videoDuration!);
 
     final ballDetectionsTimeStamps =
-        normalizedMetadataLog?.ballDetections.keys.toList();
+        normalizedMetadataLog?.ballDetections?.keys.toList();
     final hoopDetectionsTimeStamps =
-        normalizedMetadataLog?.hoopDetections.keys.toList();
+        normalizedMetadataLog?.hoopDetections?.keys.toList();
     totalTimeStampsList = <int>{
       ...?ballDetectionsTimeStamps,
       ...?hoopDetectionsTimeStamps,
     }.toList()
       ..sort();
 
-    turnActionTimeStampsList = normalizedMetadataLog?.turnActions.keys.toList()
+    turnActionTimeStampsList = normalizedMetadataLog?.turnActions?.keys.toList()
       ?..sort();
 
     zoomAdjustmentsTimeStampsList =
-        normalizedMetadataLog?.zoomAdjustments.keys.toList()?..sort();
+        normalizedMetadataLog?.zoomAdjustments?.keys.toList()?..sort();
   }
 
   @override
   Future<void> close() async {
-    await _durationSubscription?.cancel();
-    await _positionSubscription?.cancel();
     try {
       await player.dispose();
     } catch (_) {}
+    await _durationSubscription?.cancel();
+    await _positionSubscription?.cancel();
     return super.close();
   }
 
