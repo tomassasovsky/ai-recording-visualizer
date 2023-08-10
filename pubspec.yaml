@@ -9,7 +9,9 @@ environment:
 dependencies:
   audio_video_progress_bar: ^1.0.1
   bloc: ^8.1.2
-  collection: ^1.18.0
+  collection: ^1.17.1
+  cross_file: ^0.3.3+4
+  desktop_drop: ^0.4.1
   equatable: ^2.0.5
   file_picker: ^5.3.3
   firebase_dart:
