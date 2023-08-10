@@ -1,8 +1,7 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/Users/tomastisocco/Documents/flutter
-FLUTTER_APPLICATION_PATH=/Users/tomastisocco/Documents/SportsVisio/ai-recording-visualizer
+FLUTTER_ROOT=C:\tools\flutter
+FLUTTER_APPLICATION_PATH=C:\Users\Tomas\Documents\Work\opensource\ai_recording_visualizer
 COCOAPODS_PARALLEL_CODE_SIGN=true
-FLUTTER_TARGET=/Users/tomastisocco/Documents/SportsVisio/ai-recording-visualizer/lib/main.dart
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.0.1
 FLUTTER_BUILD_NUMBER=2
@@ -10,4 +9,4 @@ DART_DEFINES=RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==,RkxVVFRFUl9XRUJfQ0FOVkFTS0
 DART_OBFUSCATION=false
 TRACK_WIDGET_CREATION=true
 TREE_SHAKE_ICONS=false
-PACKAGE_CONFIG=/Users/tomastisocco/Documents/SportsVisio/ai-recording-visualizer/.dart_tool/package_config.json
+PACKAGE_CONFIG=.dart_tool/package_config.json

@@ -62,7 +62,7 @@ class ControlState extends State<Control> with SingleTickerProviderStateMixin {
       duration: const Duration(milliseconds: 400),
     );
 
-    playingStreamSubscription = player.streams.playing.listen(setPlaybackMode);
+    playingStreamSubscription = player.stream.playing.listen(setPlaybackMode);
     if (player.state.playing) playPauseController.forward();
   }
 
@@ -173,14 +173,14 @@ class ControlState extends State<Control> with SingleTickerProviderStateMixin {
                             left: 20,
                           ),
                           child: StreamBuilder<Duration>(
-                            stream: player.streams.duration,
+                            stream: player.stream.duration,
                             builder: (
                               BuildContext context,
                               AsyncSnapshot<Duration> snapshot,
                             ) {
                               final total = snapshot.data ?? Duration.zero;
                               return StreamBuilder<Duration>(
-                                stream: player.streams.position,
+                                stream: player.stream.position,
                                 builder: (context, snapshot) {
                                   final progress =
                                       snapshot.data ?? Duration.zero;
@@ -221,7 +221,7 @@ class ControlState extends State<Control> with SingleTickerProviderStateMixin {
                         ),
                       ),
                       StreamBuilder<Playlist>(
-                        stream: widget.player.streams.playlist,
+                        stream: widget.player.stream.playlist,
                         builder: (context, snapshot) {
                           return Positioned(
                             left: 0,
